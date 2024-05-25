@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Выберите отель для страны: {{ country }}</h1>
+
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for item in hotels %}
+    <div class="col">
+        <div class="card h-100">
+            <img src="{{ item.photo.url }}" class="card-img-top mw-100 mh-100" alt="" width="200" height="200">
+            <div class="card-body">
+                <h5 class="card-title">Отель: {{ item.title }}</h5>
+                <h6>Рейтинг: {{ item.rating }}</h6>
+                <p class="card-text">{{ item.description }}</p>
+                <a href="{% url 'rooms' hotel_id=item.id %}" class="btn btn-warning" >Выбрать</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock %}

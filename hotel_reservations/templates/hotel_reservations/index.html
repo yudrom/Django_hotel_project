@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!--<div class="grid gap-3">-->
+
+<!--    <div class="p-2 g-col-6">-->
+<!--        <div class="card" style="width: 18rem;">-->
+<!--            <img src="..." class="card-img-top" alt="...">-->
+<!--            <div class="card-body">-->
+<!--                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the-->
+<!--                    card's content.</p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+
+<h1>Выберите страну для путешествия</h1>
+
+<!--<div class="row">-->
+<!--    {% for item in countries %}-->
+<!--    <div class="col-md-4 mb-3">-->
+<!--        <a href="#" class='card-link-xdd'>-->
+<!--            <div class="card" style="width: 18rem;">-->
+<!--                <img src="{{ item.country_photo.url }}" class="card-img-top" alt="" width="200" height="200">-->
+<!--                <div class="card-body">-->
+<!--                    <p class="card-text">-->
+<!--                    <h3>Страна: {{ item.country_name }}</h3>-->
+<!--                    <b>Город: {{ item.city_name }}</b>-->
+<!--                    <p>{{ item.country_description }}</p>-->
+<!--                    </p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </a>-->
+
+<!--    </div>-->
+<!--    {% endfor %}-->
+<!--</div>-->
+
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for item in countries %}
+    <div class="col">
+        <div class="card h-100">
+            <img src="{{ item.country_photo.url }}" class="card-img-top mw-100 mh-100" alt="" width="200" height="200">
+            <div class="card-body">
+                <h5 class="card-title">Страна: {{ item.country_name }}</h5>
+                <h6>Город: {{ item.city_name }}</h6>
+                <p class="card-text">{{ item.country_description }}</p>
+                <a href="{% url 'country' item.country_name %}" class="btn btn-warning" >Выбрать</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock %}

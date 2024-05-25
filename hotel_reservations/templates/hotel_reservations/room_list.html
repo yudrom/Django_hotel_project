@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="room-list">
+    <div>
+        <h1>Номера в отеле: {{ hotel }}</h1>
+        {% for type, rooms in room_types.items %}
+            {% if rooms %}
+                <h2>{{ type }}:</h2>
+                <ul class="room-list">
+                    {% for room in rooms %}
+                        {% if room.availability %}
+                            <a href="#" class="btn btn-success btn-lg room-button">
+                                <b>{{ room.room_number }}</b>
+                            </a>
+                        {% else %}
+                            <a href="#" class="btn btn-danger btn-lg room-button disabled" role="button" aria-disabled="true">
+                                <b>{{ room.room_number }}</b>
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="room-image">
+        {% if hotel.photo %}
+        <img src="{{ hotel.photo.url }}" class="img-thumbnail" alt="{{ hotel.title }}" width="500px" height="500px">
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
+
+
+
+
+
