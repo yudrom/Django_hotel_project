@@ -1,5 +1,5 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-# from . import models
 from .models import Country, Hotel, Room
 
 
@@ -54,3 +54,21 @@ def get_room(request, hotel_id):
         'room_types': room_types
     }
     return render(request, template_name='hotel_reservations/room_list.html', context=context)
+
+
+def calculate_total_price(request):
+    if request.method == 'POST':
+        selected_rooms = request.POST.getlist('rooms')
+        days = int(request.POST.get('days', 0))
+        total_price = 0
+
+        for room_id in selected_rooms:
+            room = get_object_or_404(Room, pk=room_id)
+            total_price += room.price_per_night * days
+
+        context = {
+            'total_price': total_price
+        }
+        return render(request, template_name='hotel_reservations/success_payment.html', context=context)
+
+    return HttpResponseRedirect('/')

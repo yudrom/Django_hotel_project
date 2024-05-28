@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="d-flex justify-content-center">
+    <div class="text-center">
+        <h1>Платёж проведён успешно</h1>
+        <h3>Общая стоимость брони: {{ total_price }} $.</h3>
+        <a href="{% url 'main' %}">Вернуться на главную страницу</a>
+    </div>
+</div>
+
+{% endblock %}

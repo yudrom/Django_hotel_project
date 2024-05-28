@@ -1,28 +1,72 @@
 {% extends 'base.html' %}
 
+{% block head %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkboxes = document.querySelectorAll('.btn-check');
+            const totalPriceElement = document.getElementById('total-price');
+            const daysInput = document.getElementById('days-input');
+            let totalPrice = 0;
+
+            function updateTotalPrice() {
+                const days = parseInt(daysInput.value) || 0;
+                totalPrice = 0;
+
+                checkboxes.forEach(checkbox => {
+                    if (checkbox.checked) {
+                        const roomPricePerNight = parseFloat(checkbox.dataset.price);
+                        totalPrice += roomPricePerNight * days;
+                    }
+                });
+
+                totalPriceElement.innerHTML = 'Итоговая стоимость: ' + totalPrice + ' $.';
+            }
+
+            daysInput.addEventListener('input', updateTotalPrice);
+
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', updateTotalPrice);
+            });
+        });
+    </script>
+
+{% endblock %}
+
+
+
 {% block content %}
 
-<div class="room-list">
+<div class="d-flex flex-row">
     <div>
         <h1>Номера в отеле: {{ hotel }}</h1>
-        {% for type, rooms in room_types.items %}
-            {% if rooms %}
-                <h2>{{ type }}:</h2>
-                <ul class="room-list">
-                    {% for room in rooms %}
-                        {% if room.availability %}
-                            <a href="#" class="btn btn-success btn-lg room-button">
-                                <b>{{ room.room_number }}</b>
-                            </a>
-                        {% else %}
-                            <a href="#" class="btn btn-danger btn-lg room-button disabled" role="button" aria-disabled="true">
-                                <b>{{ room.room_number }}</b>
-                            </a>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        {% endfor %}
+        <form action="{% url 'calculate_total_price' %}" method="post">
+            {% csrf_token %}
+
+            <label for="days-input"><h5>Введите количество дней для брони:</h5></label>
+            <input type="number" id="days-input" name="days" min="1" required>
+            <br><br>
+            {% for type, rooms in room_types.items %}
+                {% if rooms %}
+                    <h2>{{ type }}:</h2>
+                    <ul class="d-flex flex-row">
+                        {% for room in rooms %}
+                            {% if room.availability %}
+                                <input type="checkbox" class="btn-check" id="btn-check-{{ room.id }}" name="rooms" value="{{ room.id }}" data-price="{{ room.price_per_night }}">
+                                <label class="btn btn-success btn-lg room-button" for="btn-check-{{ room.id }}"><b>{{ room.room_number }}</b></label>
+                            {% else %}
+                                <input type="checkbox" class="btn-check" id="btn-check-{{ room.id }}" disabled>
+                                <label class="btn btn-danger btn-lg room-button disabled" for="btn-check-{{ room.id }}"><b>{{ room.room_number }}</b></label>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endfor %}
+
+            <h2 id="total-price">Итоговая стоимость: 0 $.</h2>
+
+            <button class="btn btn-warning btn-lg" type="submit"><b>Оформить бронь</b></button>
+        </form>
     </div>
     <div class="room-image">
         {% if hotel.photo %}

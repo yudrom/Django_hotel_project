@@ -1,18 +1,21 @@
 <!doctype html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="icon" href="{% static 'images/airplane-plane-svgrepo-com.svg' %}">
     <style>
         .container-content {
-            margin-top: 200px;
+            margin-top: 150px;
         }
 
-        .room-list {
-            display: flex;
-            flex-direction: row;
+        .go-back-button {
+            position: absolute;
+            margin-top: 8px;
+            margin-left: 40px;
         }
 
         .room-image {
@@ -22,17 +25,25 @@
         .room-button {
             margin-right: 20px;
         }
-
-
     </style>
+
+    {% block head %}
+    {% endblock %}
+
     <title>{% block title %} ComfortTravel {% endblock %}</title>
 </head>
 <body>
 
+<div class="go-back-button">
+    <button class="btn btn-outline-secondary" onclick="history.back()">Вернуться назад</button>
+</div>
+
 {% include 'inc/_navbar.html' %}
 
 <div class="container container-content">
+
     {% block content %}CONTENT{% endblock %}
+
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
