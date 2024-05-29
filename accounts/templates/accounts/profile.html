@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %} Profile {% endblock %}
+
+{% block content %}
+    {% load static %}
+    <img src="{% static 'images/user-circle-svgrepo-com.svg' %}" alt="Profile picture" height="150px" width="150px">
+    <h2>{{ user.username }}</h2>
+    <p>Email: {{ user.email }}</p>
+{% endblock %}
