@@ -14,8 +14,14 @@
 
         .go-back-button {
             position: absolute;
-            margin-top: 8px;
-            margin-left: 40px;
+            top: 90px;
+            left: 25px;
+        }
+
+        .main-container {
+            position: relative;
+            display: flex;
+            width: 100%;
         }
 
         .room-image {
@@ -34,17 +40,18 @@
 </head>
 <body>
 
-<div class="go-back-button">
-    <button class="btn btn-outline-secondary" onclick="history.back()">Вернуться назад</button>
-</div>
-
 {% include 'inc/_navbar.html' %}
 
-<div class="container container-content">
-
-    {% block content %}CONTENT{% endblock %}
-
+<div class="main-container">
+    <div class="go-back-button">
+        <button class="btn btn-secondary" onclick="history.back()">Назад</button>
+    </div>
+    <div class="container container-content">
+        {% block content %}CONTENT{% endblock %}
+    </div>
 </div>
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
