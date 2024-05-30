@@ -3,8 +3,35 @@
 {% block title %} Profile {% endblock %}
 
 {% block content %}
-    {% load static %}
+{% load static %}
+<div>
     <img src="{% static 'images/user-circle-svgrepo-com.svg' %}" alt="Profile picture" height="150px" width="150px">
     <h2>{{ user.username }}</h2>
     <p>Email: {{ user.email }}</p>
+</div>
+
+<div>
+    {% if reservations %}
+    <h2>Информация о ваших бронированиях:</h2>
+    <div class="container text-center">
+        <div class="row row-cols-4">
+                {% for item in reservations %}
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Отель: {{ item.hotel.title }}</h5>
+                                <p class="card-text">Номер: {{ item.room.room_number }}</p>
+                                <p class="card-text">Длительность брони: {{ item.duration }}</p>
+                                <p class="card-text">Общая стоимость: {{ item.total_price }} $.</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+        </div>
+    </div>
+    {% else %}
+    <p>У вас пока нет бронирований.</p>
+    {% endif %}
+</div>
+
 {% endblock %}

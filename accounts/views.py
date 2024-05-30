@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
+from hotel_reservations.models import Reservation
 from .forms import RegisterForm, LoginForm
 from django.contrib.auth.decorators import login_required
 
@@ -41,4 +42,5 @@ def logout_view(request):
 
 @login_required
 def profile_view(request):
-    return render(request, template_name='accounts/profile.html')
+    reservations = Reservation.objects.filter(user=request.user)
+    return render(request, template_name='accounts/profile.html', context={'reservations': reservations})
