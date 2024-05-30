@@ -33,8 +33,6 @@
 
 {% endblock %}
 
-
-
 {% block content %}
 
 <div class="d-flex flex-row">
@@ -55,7 +53,7 @@
                                 <input type="checkbox" class="btn-check" id="btn-check-{{ room.id }}" name="rooms" value="{{ room.id }}" data-price="{{ room.price_per_night }}">
                                 <label class="btn btn-success btn-lg room-button" for="btn-check-{{ room.id }}"><b>{{ room.room_number }}</b></label>
                             {% else %}
-                                <input type="checkbox" class="btn-check" id="btn-check-{{ room.id }}" disabled>
+                                <input type="checkbox" class="btn-check" id="btn-check-unavailable-{{ room.id }}" disabled>
                                 <label class="btn btn-danger btn-lg room-button disabled" for="btn-check-{{ room.id }}"><b>{{ room.room_number }}</b></label>
                             {% endif %}
                         {% endfor %}
