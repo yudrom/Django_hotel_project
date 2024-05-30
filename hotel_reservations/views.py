@@ -1,16 +1,13 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-from .models import Country, Hotel, Room
+from .models import Country, Hotel, Room, Reservation
+from .decorators import login_required_with_message
 
 
 def index(request):
     countries = Country.objects.all()
-    hotels = Hotel.objects.all()
-    rooms = Hotel.objects.all()
     context = {
         'countries': countries,
-        'hotels': hotels,
-        'rooms': rooms
     }
     return render(request, template_name='hotel_reservations/index.html', context=context)
 
@@ -56,19 +53,36 @@ def get_room(request, hotel_id):
     return render(request, template_name='hotel_reservations/room_list.html', context=context)
 
 
+@login_required_with_message
 def calculate_total_price(request):
     if request.method == 'POST':
         selected_rooms = request.POST.getlist('rooms')
         days = int(request.POST.get('days', 0))
         total_price = 0
 
+        reservations = []
+
         for room_id in selected_rooms:
-            room = get_object_or_404(Room, pk=room_id)
-            total_price += room.price_per_night * days
+            if room_id:
+                room = get_object_or_404(Room, pk=room_id)
+                room_price = room.price_per_night * days
+                total_price += room_price
+
+                reservation = Reservation.objects.create(
+                    user=request.user,
+                    hotel=room.hotel,
+                    room=room,
+                    duration=days,
+                    total_price=room_price
+                )
+
+                reservations.append(reservation)
 
         context = {
-            'total_price': total_price
+            'total_price': total_price,
+            'reservation': reservations
         }
+
         return render(request, template_name='hotel_reservations/success_payment.html', context=context)
 
     return HttpResponseRedirect('/')

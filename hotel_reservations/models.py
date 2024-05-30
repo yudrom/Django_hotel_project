@@ -1,5 +1,5 @@
 from django.db import models
-# from django.contrib.auth.models import User
+from django.contrib.auth.models import User
 
 
 class Country(models.Model):
@@ -60,16 +60,16 @@ class Room(models.Model):
         ordering = ['hotel', 'room_number']
 
 
-# class Reservation(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
-#     room = models.ForeignKey(Room, on_delete=models.CASCADE, verbose_name='Комната')
-#     check_in_date = models.DateField(verbose_name='Дата заезда')
-#     check_out_date = models.DateField(verbose_name='Дата выезда')
-#     total_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Общая стоимость')
-#
-#     def __str__(self):
-#         return f'{self.user.username} - {self.room.room_number} ({self.check_in_date} to {self.check_out_date})'
-#
-#     class Meta:
-#         verbose_name = 'Бронирование'
-#         verbose_name_plural = 'Бронирования'
+class Reservation(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, verbose_name='Отель')
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, verbose_name='Комната')
+    duration = models.PositiveIntegerField()
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Общая стоимость')
+
+    def __str__(self):
+        return f'{self.user} - {self.hotel} - Комната {self.room}'
+
+    class Meta:
+        verbose_name = 'Бронирование'
+        verbose_name_plural = 'Бронирования'
