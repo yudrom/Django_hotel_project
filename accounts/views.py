@@ -29,7 +29,7 @@ def login_view(request):
                 login(request, user)
                 return redirect('main')
             else:
-                messages.error(request, message='Invalid username or password')
+                messages.error(request, message='Неверное имя пользователя или пароль')
     else:
         form = LoginForm()
     return render(request, template_name='accounts/login.html', context={'form': form})
